@@ -14,8 +14,12 @@ body {
   color: white;
   font-size: 4vmin;
   /* variables */
+  --correct-answer: #42ba96;
+  --close-answer: #ffc107;
+  --wrong-answer: #10141f;
   --card-gap: 7px;
   --max-width: 500px;
+  --flip-duration: 1s;
 }
 
 html,

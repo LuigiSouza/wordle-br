@@ -1,11 +1,12 @@
 import "./App.css";
 
-import Card from "./components/Card";
 import Grid from "./components/Grid";
 import Board from "./components/Board";
+import { useState } from "react";
 
 function App() {
-  const words = ["luigi", "teste", "audio", "asdfg", "      "];
+  const [animate, setAnimate] = useState(false);
+  const [correctAnswer, setCorrectAnswer] = useState("luigi");
 
   return (
     <div className="App">
@@ -14,13 +15,16 @@ function App() {
       </header>
       <div className="main-game">
         <Board>
-          {words.map((word, index) => (
-            <Grid key={index}>
-              {word.split("", 5).map((letter, index) => (
-                <Card key={index}>{letter}</Card>
-              ))}
-            </Grid>
-          ))}
+          <Grid
+            correctAnswer={correctAnswer}
+            word=""
+            size={5}
+            animate={animate}
+          />
+          <Grid correctAnswer={correctAnswer} word="" size={5} />
+          <Grid correctAnswer={correctAnswer} word="" size={5} />
+          <Grid correctAnswer={correctAnswer} word="" size={5} />
+          <Grid correctAnswer={correctAnswer} word="" size={5} />
         </Board>
       </div>
     </div>
