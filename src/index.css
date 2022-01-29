@@ -5,7 +5,22 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #1a600a;
+  height: 100%;
+}
+
+:root {
+  /* default values */
+  background-color: #093604;
+  color: white;
+  font-size: 4vmin;
+  /* variables */
+  --card-gap: 7px;
+  --max-width: 500px;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 code {

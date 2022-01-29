@@ -1,0 +1,5 @@
+.board {
+  display: grid;
+  gap: var(--card-gap);
+  max-height: 100%;
+}

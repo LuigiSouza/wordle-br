@@ -1,10 +1,6 @@
 .grid {
-  padding: 10px;
-  border: solid;
-  display: flex;
-  flex-direction: row;
-}
-
-.grid > * + * {
-  margin-left: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  gap: var(--card-gap);
 }
