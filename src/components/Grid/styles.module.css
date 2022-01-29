@@ -1,0 +1,10 @@
+.grid {
+  padding: 10px;
+  border: solid;
+  display: flex;
+  flex-direction: row;
+}
+
+.grid > * + * {
+  margin-left: 0.5rem;
+}

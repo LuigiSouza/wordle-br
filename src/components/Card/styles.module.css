@@ -1,0 +1,12 @@
+.card {
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 10px;
+  border-radius: 10%;
+  background-color: greenyellow;
+  font-weight: bolder;
+  font-size: 1.25rem;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 1.5rem;
+}
