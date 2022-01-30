@@ -6,7 +6,7 @@ const cssStatusMap = {
   none: "",
   correct: "var(--correct-answer)",
   wrong: "var(--wrong-answer)",
-  close: "var(--wrong-answer)",
+  close: "var(--close-answer)",
 };
 
 function Card({ delay = "0.5s", children, animate, status = "none" }) {
