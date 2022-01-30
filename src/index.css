@@ -19,7 +19,7 @@ body {
   --wrong-answer: #10141f;
   --card-gap: 7px;
   --max-width: 500px;
-  --flip-duration: 1s;
+  --flip-duration: 0.75s;
 }
 
 html,

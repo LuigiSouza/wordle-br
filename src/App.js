@@ -1,50 +1,83 @@
-import "./App.css";
+import { useCallback, useEffect, useReducer } from "react";
 
 import Grid from "./components/Grid";
 import Board from "./components/Board";
-import { useCallback, useEffect, useState } from "react";
+
+import { wordList, mapAccent } from "./utils/words";
+import { xmur3, mapLimit } from "./utils/random";
+
+import "./App.css";
 
 const size = 5;
 const tries = 6;
 
-function App() {
-  const [wordCount, setWordCount] = useState(0);
-  const [correctAnswer, setCorrectAnswer] = useState("AMENO");
+function reducer(state, action) {
+  let words;
+  switch (action.type) {
+    case "write":
+      if (state.words[state.count].length >= size) return state;
+      words = [...state.words];
+      words[state.count] += String.fromCharCode(action.letter);
+      return { ...state, words };
+    case "submit":
+      if (state.count >= tries || state.words[state.count].length < size)
+        return state;
+      const animate = [...state.animate];
+      animate[state.count] = true;
+      return { ...state, animate, count: state.count + 1 };
+    case "backspace":
+      if (state.words[state.count].length <= 0) return state;
+      words = [...state.words];
+      words[state.count] = words[state.count].substring(
+        0,
+        words[state.count].length - 1
+      );
+      return { ...state, words };
+    default:
+      return state;
+  }
+}
 
-  const [animate, setAnimate] = useState(() => {
-    return [...Array(tries).keys()].map(() => false);
-  });
-  const [submitWords, setSubmitWords] = useState(() => {
-    return [...Array(tries).keys()].map(() => "");
-  });
+function init() {
+  function loadsAnswer() {
+    const date = new Date();
+    const seed =
+      date.getFullYear().toString() +
+      (date.getMonth() + 1).toString() +
+      date.getDate().toString();
+    const rand = xmur3(seed);
+    const value = mapLimit(rand(), 0, wordList.size);
+    const word = [...wordList][value];
+    return mapAccent[word] || word;
+  }
+
+  return {
+    answer: loadsAnswer(),
+    animate: [...Array(tries).keys()].map(() => false),
+    words: [...Array(tries).keys()].map(() => ""),
+    count: 0,
+  };
+}
+
+function App() {
+  const [state, dispatch] = useReducer(reducer, {}, init);
 
   const handleKeyPress = useCallback(
     (e) => {
       const letter = e.keyCode;
       if (letter >= 65 && letter <= 90) {
-        if (submitWords[wordCount].length >= size) return;
-        const newSubmit = [...submitWords];
-        const newWord = newSubmit[wordCount];
-        newSubmit[wordCount] = newWord + String.fromCharCode(letter);
-        setSubmitWords(newSubmit);
+        dispatch({ type: "write", letter });
       }
       if (letter === 13) {
-        if (wordCount >= tries || submitWords[wordCount].length < size) return;
-        const newAnimate = [...animate];
-        newAnimate[wordCount] = true;
-        setWordCount(wordCount + 1);
-        setAnimate(newAnimate);
+        dispatch({ type: "submit" });
       }
       if (letter === 8) {
-        if (submitWords[wordCount].length <= 0) return;
-        const newSubmit = [...submitWords];
-        const newWord = newSubmit[wordCount];
-        newSubmit[wordCount] = newWord.substring(0, newWord.length - 1);
-        setSubmitWords(newSubmit);
+        dispatch({ type: "backspace" });
       }
     },
-    [submitWords, wordCount, animate]
+    [dispatch]
   );
+
   useEffect(() => {
     document.addEventListener("keydown", handleKeyPress);
     return () => document.removeEventListener("keydown", handleKeyPress);
@@ -60,10 +93,10 @@ function App() {
           {[...Array(tries).keys()].map((index) => (
             <Grid
               key={index}
-              correctAnswer={correctAnswer}
-              word={submitWords[index]}
+              correctAnswer={state.answer}
+              word={state.words[index]}
               size={size}
-              animate={animate[index]}
+              animate={state.animate[index]}
             />
           ))}
         </Board>

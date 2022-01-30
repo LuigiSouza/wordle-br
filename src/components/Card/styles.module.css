@@ -21,7 +21,7 @@
   0% {
     transform: rotate3d(0, 1, 0, 0deg);
   }
-  49.9999% {
+  49.999999% {
     border-color: #7f7f7f;
     transform: perspective(200px) rotate3d(0, 1, 0, -90deg);
   }
