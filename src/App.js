@@ -4,7 +4,7 @@ import Grid from "./components/Grid";
 import Board from "./components/Board";
 
 import { wordList, mapAccent } from "./utils/words";
-import { xmur3, mapLimit } from "./utils/random";
+import { mulberry32, deNormalize } from "./utils/random";
 
 import "./App.css";
 
@@ -45,8 +45,8 @@ function init() {
       date.getFullYear().toString() +
       (date.getMonth() + 1).toString() +
       date.getDate().toString();
-    const rand = xmur3(seed);
-    const value = mapLimit(rand(), 0, wordList.size);
+    const rand = mulberry32(seed);
+    const value = deNormalize(rand(), 0, wordList.size);
     const word = [...wordList][value];
     return mapAccent[word] || word;
   }
