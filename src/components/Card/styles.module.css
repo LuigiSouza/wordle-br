@@ -17,19 +17,6 @@
   animation: flip var(--flip-duration) linear 0s forwards;
 }
 
-.card.animate.correct {
-  background-color: var(--correct-answer);
-  transition: background-color 0s 0;
-}
-.card.animate.close {
-  background-color: var(--close-answer);
-  transition: background-color 0s 0;
-}
-.card.animate.wrong {
-  background-color: var(--wrong-answer);
-  transition: background-color 0s 0;
-}
-
 @keyframes flip {
   0% {
     transform: rotate3d(0, 1, 0, 0deg);

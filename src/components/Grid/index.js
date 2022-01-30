@@ -17,10 +17,11 @@ function Grid({ correctAnswer, word, size = 5, animate = false }) {
     const updateStatus = () => {
       const answerMap = {};
       const newStatus = ["", "", "", "", ""];
+      const uppersAnswer = correctAnswer.toUpperCase();
       for (let i = 0; i < size; i++) {
-        if (correctAnswer[i] === word[i]) newStatus[i] = "correct";
-        else if (!answerMap[correctAnswer[i]]) answerMap[correctAnswer[i]] = 1;
-        else answerMap[correctAnswer[i]] += 1;
+        if (uppersAnswer[i] === word[i]) newStatus[i] = "correct";
+        else if (!answerMap[uppersAnswer[i]]) answerMap[uppersAnswer[i]] = 1;
+        else answerMap[uppersAnswer[i]] += 1;
       }
       for (let i = 0; i < size; i++) {
         const letter = word[i];
