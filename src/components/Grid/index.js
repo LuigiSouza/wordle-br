@@ -4,7 +4,7 @@ import Card from "../Card";
 
 import styles from "./styles.module.css";
 
-function Grid({ correctAnswer, word, size = 5, animate = false }) {
+function Grid({ correctAnswer, word, size = 5, flip = false }) {
   const [status, setStatus] = useState([
     "none",
     "none",
@@ -36,8 +36,8 @@ function Grid({ correctAnswer, word, size = 5, animate = false }) {
       setStatus(newStatus);
     };
 
-    if (animate) updateStatus();
-  }, [animate, word, correctAnswer, size]);
+    if (flip) updateStatus();
+  }, [flip, word, correctAnswer, size]);
 
   return (
     <div className={styles.grid}>
@@ -45,7 +45,8 @@ function Grid({ correctAnswer, word, size = 5, animate = false }) {
         <Card
           delay={index * 0.3}
           key={index}
-          animate={animate}
+          flip={flip}
+          jump={word.length - 1 >= index}
           status={status[index]}
         >
           {word[index] || " "}

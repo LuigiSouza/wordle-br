@@ -9,12 +9,14 @@ const cssStatusMap = {
   close: "var(--close-answer)",
 };
 
-function Card({ delay = "0.5s", children, animate, status = "none" }) {
+function Card({ delay = "0.5s", children, flip, jump, status = "none" }) {
   return (
     <div
-      className={`${styles.card} ${animate ? styles.animate : ""}`}
+      className={`${styles.card} ${flip ? styles.flip : ""} ${
+        jump && !flip ? styles.jump : ""
+      }`}
       style={{
-        animationDelay: `${parseFloat(delay)}s`,
+        animationDelay: flip && `${parseFloat(delay)}s`,
         backgroundColor: cssStatusMap[status],
         transition: `background-color 0s calc(var(--flip-duration) / 2 + ${parseFloat(
           delay

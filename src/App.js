@@ -22,9 +22,9 @@ function reducer(state, action) {
     case "submit":
       if (state.count >= tries || state.words[state.count].length < size)
         return state;
-      const animate = [...state.animate];
-      animate[state.count] = true;
-      return { ...state, animate, count: state.count + 1 };
+      const flip = [...state.flip];
+      flip[state.count] = true;
+      return { ...state, flip, count: state.count + 1 };
     case "backspace":
       if (state.words[state.count].length <= 0) return state;
       words = [...state.words];
@@ -53,7 +53,7 @@ function init() {
 
   return {
     answer: loadsAnswer(),
-    animate: [...Array(tries).keys()].map(() => false),
+    flip: [...Array(tries).keys()].map(() => false),
     words: [...Array(tries).keys()].map(() => ""),
     count: 0,
   };
@@ -96,7 +96,7 @@ function App() {
               correctAnswer={state.answer}
               word={state.words[index]}
               size={size}
-              animate={state.animate[index]}
+              flip={state.flip[index]}
             />
           ))}
         </Board>

@@ -20,6 +20,7 @@ body {
   --card-gap: 7px;
   --max-width: 500px;
   --flip-duration: 0.75s;
+  --jump-duration: 0.25s;
 }
 
 html,
