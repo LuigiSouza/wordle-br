@@ -13,8 +13,9 @@
   height: 100%;
   margin: 20px;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
 
 header {
@@ -24,7 +25,7 @@ header {
   border-bottom-width: 1px;
   border-color: #afafaf;
   width: 100%;
-  font-size: xx-large;
+  font-size: x-large;
   font-weight: bolder;
 }
 

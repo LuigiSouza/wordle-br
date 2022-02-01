@@ -1,16 +1,15 @@
 .card {
-  width: 1.5rem;
-  height: 1.5rem;
-  padding: 10px;
+  width: 2rem;
+  height: 2rem;
   border: solid;
   border-width: 3px;
   border-radius: 10%;
   border-color: #7f7f7f;
   font-weight: bolder;
-  font-size: 1.25rem;
+  font-size: 1rem;
   text-align: center;
   vertical-align: middle;
-  line-height: 1.5rem;
+  line-height: 2rem;
 }
 
 .card.flip {

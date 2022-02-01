@@ -17,10 +17,11 @@ body {
   --correct-answer: #42ba96;
   --close-answer: #ffc107;
   --wrong-answer: #10141f;
-  --card-gap: 7px;
-  --max-width: 500px;
+  --card-gap: 0.25rem;
+  --keyboard-gap: 6px;
+  --max-width: 600px;
   --flip-duration: 0.75s;
-  --jump-duration: 0.25s;
+  --jump-duration: 0.15s;
 }
 
 html,

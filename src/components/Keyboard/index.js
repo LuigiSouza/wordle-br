@@ -4,27 +4,35 @@ import KeyPress from "./Key";
 
 import styles from "./styles.module.css";
 
-const fstRow = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
-const sndRow = ["a", "s", "d", "f", "g", "h", "j", "k", "l"];
-const thdRow = ["z", "x", "c", "v", "b", "n", "m"];
+const fstRow = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
+const sndRow = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
+const thdRow = ["Z", "X", "C", "V", "B", "N", "M"];
 
-function Keyboard() {
+function Keyboard({ action }) {
   return (
     <div className={styles.keyboard}>
       <div>
         {fstRow.map((key, index) => (
-          <KeyPress key={index}>{key}</KeyPress>
+          <KeyPress action={() => action(key.charCodeAt(0))} key={index}>
+            {key}
+          </KeyPress>
         ))}
       </div>
       <div>
         {sndRow.map((key, index) => (
-          <KeyPress key={index}>{key}</KeyPress>
+          <KeyPress action={() => action(key.charCodeAt(0))} key={index}>
+            {key}
+          </KeyPress>
         ))}
+        <KeyPress action={() => action(8)}>&#9003;</KeyPress>
       </div>
       <div>
         {thdRow.map((key, index) => (
-          <KeyPress key={index}>{key}</KeyPress>
+          <KeyPress action={() => action(key.charCodeAt(0))} key={index}>
+            {key}
+          </KeyPress>
         ))}
+        <KeyPress action={() => action(13)}>ENTER</KeyPress>
       </div>
     </div>
   );

@@ -1,22 +1,15 @@
 .keyboard {
+  width: 100%;
+  padding: 1rem 1rem 0 1rem;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 6px;
-  margin: 10px;
+  gap: var(--keyboard-gap);
 }
 
 .keyboard > div {
-  display: grid;
+  display: flex;
   gap: inherit;
-}
-.keyboard > div:nth-child(1) {
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-}
-.keyboard > div:nth-child(2) {
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-}
-.keyboard > div:nth-child(3) {
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }

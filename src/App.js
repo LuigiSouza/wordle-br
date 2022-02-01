@@ -63,6 +63,10 @@ function init() {
 function App() {
   const [state, dispatch] = useReducer(reducer, {}, init);
 
+  const handleClick = useCallback((e) => {
+    console.log(e);
+  }, []);
+
   const handleKeyPress = useCallback(
     (e) => {
       const letter = e.keyCode;
@@ -101,7 +105,7 @@ function App() {
             />
           ))}
         </Board>
-        <Keyboard />
+        <Keyboard action={handleClick} />
       </div>
     </div>
   );
