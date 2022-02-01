@@ -2,8 +2,9 @@ import { useCallback, useEffect, useReducer } from "react";
 
 import Grid from "./components/Grid";
 import Board from "./components/Board";
+import Keyboard from "./components/Keyboard";
 
-import { wordList, mapAccent } from "./utils/words";
+import { mapAccent, answerList } from "./utils/words";
 import { mulberry32, deNormalize } from "./utils/random";
 
 import "./App.css";
@@ -46,8 +47,8 @@ function init() {
       (date.getMonth() + 1).toString() +
       date.getDate().toString();
     const rand = mulberry32(seed);
-    const value = deNormalize(rand(), 0, wordList.size);
-    const word = [...wordList][value];
+    const value = deNormalize(rand(), 0, answerList.size);
+    const word = [...answerList][value];
     return mapAccent[word] || word;
   }
 
@@ -100,6 +101,7 @@ function App() {
             />
           ))}
         </Board>
+        <Keyboard />
       </div>
     </div>
   );
