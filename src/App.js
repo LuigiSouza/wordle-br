@@ -4,7 +4,7 @@ import Grid from "./components/Grid";
 import Board from "./components/Board";
 import Keyboard from "./components/Keyboard";
 
-import { mapAccent, answerList } from "./utils/words";
+import { mapAccent, answerList, wordList } from "./utils/words";
 import { mulberry32, deNormalize } from "./utils/random";
 
 import "./App.css";
@@ -13,27 +13,45 @@ const size = 5;
 const tries = 6;
 
 function reducer(state, action) {
-  let words;
+  const words = [...state.words];
+  const current = state.words[state.count];
   switch (action.type) {
     case "write":
-      if (state.words[state.count].length >= size) return state;
-      words = [...state.words];
+      if (current.length >= size) return state;
       words[state.count] += String.fromCharCode(action.letter);
       return { ...state, words };
     case "submit":
-      if (state.count >= tries || state.words[state.count].length < size)
-        return state;
+      if (state.count >= tries || current.length < size) return state;
+      const currentLower = current.toLowerCase();
+      if (!wordList.has(currentLower)) return state;
       const flip = [...state.flip];
       flip[state.count] = true;
-      return { ...state, flip, count: state.count + 1 };
+      const newWord = mapAccent[currentLower] || currentLower;
+      words[state.count] = newWord.toUpperCase();
+      return {
+        ...state,
+        count: state.count + 1,
+        gameState: "animating",
+        flip,
+        words,
+      };
     case "backspace":
-      if (state.words[state.count].length <= 0) return state;
-      words = [...state.words];
+      if (current.length <= 0) return state;
       words[state.count] = words[state.count].substring(
         0,
         words[state.count].length - 1
       );
       return { ...state, words };
+    case "animationstart":
+      return { ...state, animation: state.animation + 1 };
+    case "animationcancel":
+      return { ...state, animation: state.animation - 1 };
+    case "animationend":
+      const animating =
+        state.state === "waiting" || state.animation <= 1
+          ? "waiting"
+          : "animating";
+      return { ...state, gameState: animating, animation: state.animation - 1 };
     default:
       return state;
   }
@@ -56,6 +74,9 @@ function init() {
     answer: loadsAnswer(),
     flip: [...Array(tries).keys()].map(() => false),
     words: [...Array(tries).keys()].map(() => ""),
+    letters: {},
+    animation: 0,
+    gameState: "waiting",
     count: 0,
   };
 }
@@ -86,10 +107,26 @@ function App() {
     [handleKeyType]
   );
 
+  const handleAnimation = useCallback((e) => {
+    dispatch({ type: e.type });
+  }, []);
+
+  // document listeners
   useEffect(() => {
+    Object.keys(mapAccent).forEach((k) => {
+      if (!wordList.has(k)) console.log(k);
+    });
+    document.addEventListener("animationstart", handleAnimation);
+    document.addEventListener("animationend", handleAnimation);
+    document.addEventListener("animationcancel", handleAnimation);
     document.addEventListener("keydown", handleKeyPress);
-    return () => document.removeEventListener("keydown", handleKeyPress);
-  }, [handleKeyPress]);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+      document.removeEventListener("animationstart", handleAnimation);
+      document.removeEventListener("animationend", handleAnimation);
+      document.removeEventListener("animationcancel", handleAnimation);
+    };
+  }, [handleKeyPress, handleAnimation]);
 
   return (
     <div className="App">
