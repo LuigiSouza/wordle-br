@@ -1,0 +1,22 @@
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin: 10px;
+}
+
+.keyboard > div {
+  display: grid;
+  gap: inherit;
+}
+.keyboard > div:nth-child(1) {
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+.keyboard > div:nth-child(2) {
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+.keyboard > div:nth-child(3) {
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
