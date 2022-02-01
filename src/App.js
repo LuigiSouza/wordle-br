@@ -63,13 +63,8 @@ function init() {
 function App() {
   const [state, dispatch] = useReducer(reducer, {}, init);
 
-  const handleClick = useCallback((e) => {
-    console.log(e);
-  }, []);
-
-  const handleKeyPress = useCallback(
-    (e) => {
-      const letter = e.keyCode;
+  const handleKeyType = useCallback(
+    (letter) => {
       if (letter >= 65 && letter <= 90) {
         dispatch({ type: "write", letter });
       }
@@ -81,6 +76,14 @@ function App() {
       }
     },
     [dispatch]
+  );
+
+  const handleKeyPress = useCallback(
+    (e) => {
+      const letter = e.keyCode;
+      handleKeyType(letter);
+    },
+    [handleKeyType]
   );
 
   useEffect(() => {
@@ -105,7 +108,7 @@ function App() {
             />
           ))}
         </Board>
-        <Keyboard action={handleClick} />
+        <Keyboard action={handleKeyType} />
       </div>
     </div>
   );
