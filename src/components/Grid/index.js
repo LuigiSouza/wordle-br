@@ -4,7 +4,13 @@ import Card from "../Card";
 
 import styles from "./styles.module.css";
 
-function Grid({ correctAnswer, word, size = 5, flip = false }) {
+function Grid({
+  correctAnswer,
+  word,
+  flip = false,
+  disabled = false,
+  size = 5,
+}) {
   const [status, setStatus] = useState([
     "none",
     "none",
@@ -47,7 +53,9 @@ function Grid({ correctAnswer, word, size = 5, flip = false }) {
           key={index}
           flip={flip}
           jump={word.length - 1 >= index}
+          disabled={disabled}
           status={status[index]}
+          underline={word.length === index && !disabled}
         >
           {word[index] || " "}
         </Card>

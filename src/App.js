@@ -17,6 +17,7 @@ function reducer(state, action) {
   const current = state.words[state.count];
   switch (action.type) {
     case "write":
+      if (state.gameState !== "waiting") return state;
       if (current.length >= size) return state;
       words[state.count] += String.fromCharCode(action.letter);
       return { ...state, words };
@@ -48,7 +49,8 @@ function reducer(state, action) {
       return { ...state, animation: state.animation - 1 };
     case "animationend":
       const animating =
-        state.state === "waiting" || state.animation <= 1
+        (state.gameState === "animating" && state.animation <= 1) ||
+        state.gameState === "waiting"
           ? "waiting"
           : "animating";
       return { ...state, gameState: animating, animation: state.animation - 1 };
@@ -142,6 +144,10 @@ function App() {
               word={state.words[index]}
               size={size}
               flip={state.flip[index]}
+              disabled={
+                (state.gameState === "animating" && index >= state.count) ||
+                index > state.count
+              }
             />
           ))}
         </Board>

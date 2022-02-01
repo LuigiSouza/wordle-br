@@ -14,13 +14,14 @@ body {
   color: white;
   font-size: 4vmin;
   /* variables */
+  --disbled-color: #0a4d03;
   --correct-answer: #42ba96;
   --close-answer: #ffc107;
   --wrong-answer: #10141f;
   --card-gap: 0.25rem;
   --keyboard-gap: 6px;
   --max-width: 600px;
-  --flip-duration: 0.75s;
+  --flip-duration: 0.6s;
   --jump-duration: 0.15s;
 }
 

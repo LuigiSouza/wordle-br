@@ -9,18 +9,28 @@ const cssStatusMap = {
   close: "var(--close-answer)",
 };
 
-function Card({ delay = "0.5s", children, flip, jump, status = "none" }) {
+function Card({
+  status = "none",
+  delay = "0.5s",
+  children,
+  flip,
+  jump,
+  disabled,
+  underline = true,
+}) {
   return (
     <div
-      className={`${styles.card} ${flip ? styles.flip : ""} ${
-        jump && !flip ? styles.jump : ""
-      }`}
+      className={`
+        ${styles.card} ${flip ? styles.flip : ""} 
+        ${jump && !flip ? styles.jump : ""} 
+        ${disabled ? styles.disabled : ""} 
+        ${underline ? styles.underline : ""}
+      `}
       style={{
         animationDelay: flip && `${parseFloat(delay)}s`,
+        transitionDelay:
+          flip && `calc(var(--flip-duration) / 2 + ${parseFloat(delay)}s`,
         backgroundColor: cssStatusMap[status],
-        transition: `background-color 0s calc(var(--flip-duration) / 2 + ${parseFloat(
-          delay
-        )}s)`,
       }}
     >
       {children.toUpperCase()}

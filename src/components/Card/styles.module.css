@@ -1,6 +1,7 @@
 .card {
-  width: 2rem;
   height: 2rem;
+  aspect-ratio: 1;
+  box-sizing: border-box;
   border: solid;
   border-width: 3px;
   border-radius: 10%;
@@ -9,15 +10,24 @@
   font-size: 1rem;
   text-align: center;
   vertical-align: middle;
-  line-height: 2rem;
+  line-height: calc(2rem - 3px);
 }
 
 .card.flip {
   animation: flip var(--flip-duration) linear 0s forwards;
+  transition: background-color 0s calc(var(--flip-duration) / 2);
 }
 
 .card.jump {
   animation: jump var(--jump-duration) linear 0s backwards;
+}
+
+.card.disabled {
+  background-color: var(--disbled-color);
+  border-color: var(--disbled-color);
+}
+.card.underline {
+  border-bottom-width: 10px;
 }
 
 @keyframes jump {
