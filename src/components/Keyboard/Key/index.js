@@ -3,33 +3,35 @@ import React, { useCallback, useState } from "react";
 import styles from "./styles.module.css";
 
 function Key({ action, children }) {
-  const [clicked, setClicked] = useState(false);
+  const [clicked, setClicked] = useState(0);
   const [timeout, setTimeout] = useState(null);
 
   const handleClick = useCallback(() => {
-    setClicked(true);
+    setClicked(1);
     var timeout = setInterval(() => {
-      setClicked(false);
+      setClicked(2);
       clearTimeout(timeout);
     }, 1000);
     setTimeout(timeout);
   }, []);
 
   const handleSumbit = useCallback(() => {
-    if (!clicked) return;
+    if (clicked === 2) {
+      setClicked(0);
+      return;
+    }
 
     action();
     clearInterval(timeout);
     setTimeout(null);
-    setClicked(false);
+    setClicked(0);
   }, [clicked, timeout, action]);
 
   return (
     <div
-      className={`${styles.key} ${clicked ? styles.clicked : ""}`}
+      className={`${styles.key} ${clicked === 1 ? styles.clicked : ""}`}
       onTouchStart={handleClick}
-      onTouchEnd={handleSumbit}
-      onClick={action}
+      onClick={handleSumbit}
     >
       {typeof children === "string" ? children.toUpperCase() : children}
     </div>
