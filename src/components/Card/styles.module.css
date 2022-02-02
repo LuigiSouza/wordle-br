@@ -10,7 +10,7 @@
   font-weight: bolder;
   text-align: center;
   vertical-align: center;
-  line-height: calc(max(min(4rem, 4vh), 40px) + 0.12em);
+  line-height: calc(max(min(4rem, 4vh), 40px) + 0.2em);
 }
 
 .card.flip {
