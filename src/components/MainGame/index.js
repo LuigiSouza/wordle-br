@@ -84,20 +84,17 @@ function init() {
 function MainGame() {
   const [state, dispatch] = useReducer(reducer, {}, init);
 
-  const handleKeyType = useCallback(
-    (letter) => {
-      if (letter >= 65 && letter <= 90) {
-        dispatch({ type: "write", letter });
-      }
-      if (letter === 13) {
-        dispatch({ type: "submit" });
-      }
-      if (letter === 8) {
-        dispatch({ type: "backspace" });
-      }
-    },
-    [dispatch]
-  );
+  const handleKeyType = useCallback((letter) => {
+    if (letter >= 65 && letter <= 90) {
+      dispatch({ type: "write", letter });
+    }
+    if (letter === 13) {
+      dispatch({ type: "submit" });
+    }
+    if (letter === 8) {
+      dispatch({ type: "backspace" });
+    }
+  }, []);
 
   const handleKeyPress = useCallback(
     (e) => {

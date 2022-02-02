@@ -12,7 +12,7 @@ const statusHeight = {
 function LetterProvider({ children }) {
   const [letterStatus, setLetterStatus] = useState(() => {
     const keyboard = {};
-    for (let i = 65; i < 90; i++) keyboard[String.fromCharCode(i)] = "none";
+    for (let i = 65; i <= 90; i++) keyboard[String.fromCharCode(i)] = "none";
     return keyboard;
   });
 
