@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useLettersData } from "../../hooks/LetterContext";
 
 import Card from "../Card";
 
@@ -11,6 +12,8 @@ function Grid({
   disabled = false,
   size = 5,
 }) {
+  const { updadeKeyboard } = useLettersData();
+
   const [status, setStatus] = useState([
     "none",
     "none",
@@ -46,6 +49,14 @@ function Grid({
           answerMap[letter]--;
         }
       }
+      const newKeyboardStatus = [];
+      newStatus.forEach((status, index) =>
+        newKeyboardStatus.push({
+          letter: nomalizedWord[index],
+          status: status,
+        })
+      );
+      updadeKeyboard(newKeyboardStatus);
 
       setStatus(newStatus);
     };
@@ -57,7 +68,7 @@ function Grid({
     <div className={styles.grid}>
       {[...Array(size).keys()].map((index) => (
         <Card
-          delay={index * 0.3}
+          delay={index}
           key={index}
           flip={flip}
           jump={word.length - 1 >= index}

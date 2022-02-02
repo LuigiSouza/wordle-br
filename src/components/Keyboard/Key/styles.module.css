@@ -9,6 +9,20 @@
   vertical-align: middle;
   user-select: none;
   -webkit-user-drag: none;
+  transition: background-color 1s calc(var(--flip-delay) * 5);
+}
+
+.key.none {
+  background-color: #555559;
+}
+.key.close {
+  background-color: var(--close-answer);
+}
+.key.wrong {
+  background-color: var(--wrong-answer);
+}
+.key.correct {
+  background-color: var(--correct-answer);
 }
 
 .key.clicked {

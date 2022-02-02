@@ -1,5 +1,3 @@
-import React from "react";
-
 import styles from "./styles.module.css";
 
 const cssStatusMap = {
@@ -11,7 +9,7 @@ const cssStatusMap = {
 
 function Card({
   status = "none",
-  delay = "0.5s",
+  delay = 0,
   children,
   flip,
   jump,
@@ -27,9 +25,10 @@ function Card({
         ${underline ? styles.underline : ""}
       `}
       style={{
-        animationDelay: flip && `${parseFloat(delay)}s`,
+        animationDelay: flip && `calc(${delay} * var(--flip-delay))`,
         transitionDelay:
-          flip && `calc(var(--flip-duration) / 2 + ${parseFloat(delay)}s`,
+          flip &&
+          `calc(var(--flip-duration) / 2 + ${delay} * var(--flip-delay)`,
         backgroundColor: cssStatusMap[status],
       }}
     >

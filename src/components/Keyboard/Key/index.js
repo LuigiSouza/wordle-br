@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 
 import styles from "./styles.module.css";
 
-function Key({ action, children }) {
+function Key({ action, children, status }) {
   const [clicked, setClicked] = useState(0);
   const [timeout, setTimeout] = useState(null);
 
@@ -29,7 +29,11 @@ function Key({ action, children }) {
 
   return (
     <div
-      className={`${styles.key} ${clicked === 1 ? styles.clicked : ""}`}
+      className={`
+        ${styles[status]} 
+        ${styles.key} 
+        ${clicked === 1 ? styles.clicked : ""}
+      `}
       onTouchStart={handleClick}
       onClick={handleSumbit}
     >

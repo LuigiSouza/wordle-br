@@ -1,6 +1,5 @@
-import React from "react";
-
 import KeyPress from "./Key";
+import { useLettersData } from "../../hooks/LetterContext";
 
 import styles from "./styles.module.css";
 
@@ -9,18 +8,28 @@ const sndRow = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
 const thdRow = ["Z", "X", "C", "V", "B", "N", "M"];
 
 function Keyboard({ action }) {
+  const { letterStatus } = useLettersData();
+
   return (
     <div className={styles.keyboard}>
       <div>
         {fstRow.map((key, index) => (
-          <KeyPress action={() => action(key.charCodeAt(0))} key={index}>
+          <KeyPress
+            action={() => action(key.charCodeAt(0))}
+            key={index}
+            status={letterStatus[key]}
+          >
             {key}
           </KeyPress>
         ))}
       </div>
       <div>
         {sndRow.map((key, index) => (
-          <KeyPress action={() => action(key.charCodeAt(0))} key={index}>
+          <KeyPress
+            action={() => action(key.charCodeAt(0))}
+            key={index}
+            status={letterStatus[key]}
+          >
             {key}
           </KeyPress>
         ))}
@@ -28,7 +37,11 @@ function Keyboard({ action }) {
       </div>
       <div>
         {thdRow.map((key, index) => (
-          <KeyPress action={() => action(key.charCodeAt(0))} key={index}>
+          <KeyPress
+            action={() => action(key.charCodeAt(0))}
+            key={index}
+            status={letterStatus[key]}
+          >
             {key}
           </KeyPress>
         ))}

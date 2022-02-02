@@ -22,6 +22,7 @@ body {
   --keyboard-gap: 6px;
   --max-width: 600px;
   --flip-duration: 0.6s;
+  --flip-delay: 0.3s;
   --jump-duration: 0.15s;
 }
 
