@@ -96,13 +96,10 @@ function MainGame() {
     }
   }, []);
 
-  const handleKeyPress = useCallback(
-    (e) => {
-      const letter = e.keyCode;
-      handleKeyType(letter);
-    },
-    [handleKeyType]
-  );
+  const handleKeyPress = useCallback((e) => {
+    const letter = e.keyCode;
+    handleKeyType(letter);
+  }, []);
 
   const handleAnimation = useCallback((e) => {
     dispatch({ type: e.type });
@@ -123,7 +120,7 @@ function MainGame() {
       document.removeEventListener("animationend", handleAnimation);
       document.removeEventListener("animationcancel", handleAnimation);
     };
-  }, [handleKeyPress, handleAnimation]);
+  }, []);
 
   return (
     <div className={styles.page}>
