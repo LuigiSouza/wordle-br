@@ -1,16 +1,16 @@
 .card {
   height: min(min(4rem, 8vh), 56px);
   aspect-ratio: 1;
+  font-size: min(min(4rem, 4vh), 40px);
   box-sizing: border-box;
   border: solid;
-  border-width: 0.12rem;
+  border-width: 0.12em;
   border-radius: 10%;
   border-color: #7f7f7f;
   font-weight: bolder;
-  font-size: 1rem;
   text-align: center;
-  vertical-align: middle;
-  line-height: calc(2rem - 3px);
+  vertical-align: center;
+  line-height: calc(max(min(4rem, 4vh), 40px) + 0.12em);
 }
 
 .card.flip {
@@ -27,7 +27,7 @@
   border-color: var(--disbled-color);
 }
 .card.underline {
-  border-bottom-width: 0.28rem;
+  border-bottom-width: 0.28em;
 }
 
 @keyframes jump {

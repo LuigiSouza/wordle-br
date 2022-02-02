@@ -4,6 +4,7 @@
   max-width: var(--max-width);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   margin: 0 auto;
   align-items: center;
 }
