@@ -68,8 +68,7 @@ function init() {
       date.getDate().toString();
     const rand = mulberry32(seed);
     const value = deNormalize(rand(), 0, answerList.size);
-    const word = [...answerList][value];
-    return mapAccent[word] || word;
+    return [...answerList][value];
   }
 
   return {

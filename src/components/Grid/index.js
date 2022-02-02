@@ -23,14 +23,22 @@ function Grid({
     const updateStatus = () => {
       const answerMap = {};
       const newStatus = ["", "", "", "", ""];
-      const uppersAnswer = correctAnswer.toUpperCase();
+      const nomalizedAnswer = correctAnswer
+        .toUpperCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+      const nomalizedWord = word
+        .toUpperCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
       for (let i = 0; i < size; i++) {
-        if (uppersAnswer[i] === word[i]) newStatus[i] = "correct";
-        else if (!answerMap[uppersAnswer[i]]) answerMap[uppersAnswer[i]] = 1;
-        else answerMap[uppersAnswer[i]] += 1;
+        if (nomalizedAnswer[i] === nomalizedWord[i]) newStatus[i] = "correct";
+        else if (!answerMap[nomalizedAnswer[i]])
+          answerMap[nomalizedAnswer[i]] = 1;
+        else answerMap[nomalizedAnswer[i]] += 1;
       }
       for (let i = 0; i < size; i++) {
-        const letter = word[i];
+        const letter = nomalizedWord[i];
         if (newStatus[i] !== "") continue;
         if (!answerMap[letter]) newStatus[i] = "wrong";
         else if (answerMap[letter] > 0) {
