@@ -37,7 +37,7 @@ function Key({ action, children, status }) {
       onTouchStart={handleClick}
       onClick={handleSumbit}
     >
-      {typeof children === "string" ? children.toUpperCase() : children}
+      <span>{children.toUpperCase()}</span>
     </div>
   );
 }

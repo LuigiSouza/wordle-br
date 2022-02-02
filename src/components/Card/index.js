@@ -32,7 +32,7 @@ function Card({
         backgroundColor: cssStatusMap[status],
       }}
     >
-      {children.toUpperCase()}
+      <span>{children.toUpperCase()}</span>
     </div>
   );
 }

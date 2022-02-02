@@ -20,6 +20,7 @@ body {
   --wrong-answer: #10141f;
   --card-gap: max(0.25rem, 7px);
   --keyboard-gap: 6px;
+  --keyboard-transition: 0.6s;
   --max-width: 600px;
   --flip-duration: 0.6s;
   --flip-delay: 0.3s;

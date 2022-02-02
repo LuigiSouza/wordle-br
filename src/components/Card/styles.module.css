@@ -1,16 +1,21 @@
 .card {
-  height: min(min(4rem, 8vh), 56px);
   aspect-ratio: 1;
-  font-size: min(min(4rem, 4vh), 40px);
+  height: min(min(4rem, 8vh), 56px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   border: solid;
   border-width: 0.12em;
   border-radius: 10%;
   border-color: #7f7f7f;
+}
+
+.card span {
   font-weight: bolder;
   text-align: center;
   vertical-align: center;
-  line-height: calc(max(min(4rem, 4vh), 40px) + 0.2em);
+  font-size: min(min(4rem, 4vh), 56px);
 }
 
 .card.flip {

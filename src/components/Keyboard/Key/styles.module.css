@@ -1,15 +1,23 @@
 .key {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex: 1 1 0px;
   padding: 1.5vh 2vw;
   border-radius: 5px;
   background-color: #555559;
-  font-weight: bold;
-  text-align: center;
-  font-size: 0.8rem;
-  vertical-align: middle;
   user-select: none;
   -webkit-user-drag: none;
-  transition: background-color 1s calc(var(--flip-delay) * 5);
+  transition: background-color var(--keyboard-transition),
+    color var(--keyboard-transition);
+  transition-delay: calc(var(--flip-delay) * 4 + var(--flip-duration));
+}
+
+.key span {
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 0.8rem;
 }
 
 .key.none {
@@ -19,6 +27,7 @@
   background-color: var(--close-answer);
 }
 .key.wrong {
+  color: #555559;
   background-color: var(--wrong-answer);
 }
 .key.correct {
