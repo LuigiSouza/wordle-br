@@ -1,9 +1,9 @@
 .card {
-  height: 2rem;
+  height: min(min(4rem, 8vh), 56px);
   aspect-ratio: 1;
   box-sizing: border-box;
   border: solid;
-  border-width: 3px;
+  border-width: 0.12rem;
   border-radius: 10%;
   border-color: #7f7f7f;
   font-weight: bolder;
@@ -27,7 +27,7 @@
   border-color: var(--disbled-color);
 }
 .card.underline {
-  border-bottom-width: 10px;
+  border-bottom-width: 0.28rem;
 }
 
 @keyframes jump {

@@ -18,7 +18,7 @@ body {
   --correct-answer: #42ba96;
   --close-answer: #ffc107;
   --wrong-answer: #10141f;
-  --card-gap: 0.25rem;
+  --card-gap: max(0.25rem, 7px);
   --keyboard-gap: 6px;
   --max-width: 600px;
   --flip-duration: 0.6s;
