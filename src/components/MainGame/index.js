@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer } from "react";
+import { useCallback, useEffect, useReducer, useMemo } from "react";
 
 import Grid from "../Grid";
 import Board from "../Board";
@@ -15,16 +15,17 @@ const tries = 6;
 function reducer(state, action) {
   const words = [...state.words];
   const current = state.words[state.count];
+  const toast = state.toast !== "none" ? "hide" : "none";
   switch (action.type) {
     case "write":
       if (state.gameState !== "waiting") return state;
-      if (current.length >= size) return state;
+      if (current.length >= size) return { ...state, toast };
       words[state.count] += String.fromCharCode(action.letter);
-      return { ...state, words };
+      return { ...state, words, toast };
     case "submit":
       if (state.count >= tries || current.length < size) return state;
       const currentLower = current.toLowerCase();
-      if (!wordList.has(currentLower)) return state;
+      if (!wordList.has(currentLower)) return { ...state, toast: "show" };
       const flip = [...state.flip];
       flip[state.count] = true;
       const newWord = mapAccent[currentLower] || currentLower;
@@ -42,18 +43,31 @@ function reducer(state, action) {
         0,
         words[state.count].length - 1
       );
-      return { ...state, words };
+      return { ...state, words, toast };
     case "animationstart":
       return { ...state, animation: state.animation + 1 };
     case "animationcancel":
       return { ...state, animation: state.animation - 1 };
     case "animationend":
-      const animating =
-        (state.gameState === "animating" && state.animation <= 1) ||
-        state.gameState === "waiting"
-          ? "waiting"
-          : "animating";
-      return { ...state, gameState: animating, animation: state.animation - 1 };
+      if (state.gameState === "waiting")
+        return { ...state, animation: state.animation - 1 };
+      let gameState = state.gameState;
+      if (state.gameState === "animating" && state.animation <= 1) {
+        if (words[state.count - 1] === state.answer) gameState = "win";
+        // correct answer
+        else if (state.count === tries) gameState = "lose";
+        //wrong answer
+        else gameState = "waiting";
+        // continue game
+      }
+      const newToast =
+        gameState !== "waiting" && gameState !== "animating" ? "show" : toast;
+      return {
+        ...state,
+        gameState,
+        toast: newToast,
+        animation: state.animation - 1,
+      };
     default:
       return state;
   }
@@ -68,7 +82,7 @@ function init() {
       date.getDate().toString();
     const rand = mulberry32(seed);
     const value = deNormalize(rand(), 0, answerList.size);
-    return [...answerList][value];
+    return [...answerList][value].toUpperCase();
   }
 
   return {
@@ -77,9 +91,19 @@ function init() {
     words: [...Array(tries).keys()].map(() => ""),
     animation: 0,
     gameState: "waiting",
+    toast: "none",
     count: 0,
   };
 }
+
+const winMessages = {
+  1: "Perfeito!",
+  2: "Extraordinário!",
+  3: "Incrível!",
+  4: "Bem jogado!",
+  5: "Muito bem!",
+  6: "Parabéns!",
+};
 
 function MainGame() {
   const [state, dispatch] = useReducer(reducer, {}, init);
@@ -122,12 +146,24 @@ function MainGame() {
     };
   }, []);
 
+  const toastMessages = useMemo(() => {
+    return {
+      win: winMessages[state.count || 1],
+      lose: state.answer,
+      waiting: "Esta não é uma palavra válida",
+      animating: "Easter Egg|",
+    };
+  }, [state]);
+
   return (
     <div className={styles.page}>
       <header>
         <span>(NOT) TERMO</span>
       </header>
       <div className={styles.mainGame}>
+        <div className={`${styles.warning} ${styles[state.toast]}`}>
+          <span>{toastMessages[state.gameState]}</span>
+        </div>
         <Board>
           {[...Array(tries).keys()].map((index) => (
             <Grid
@@ -137,7 +173,7 @@ function MainGame() {
               size={size}
               flip={state.flip[index]}
               disabled={
-                (state.gameState === "animating" && index >= state.count) ||
+                (state.gameState !== "waiting" && index >= state.count) ||
                 index > state.count
               }
             />

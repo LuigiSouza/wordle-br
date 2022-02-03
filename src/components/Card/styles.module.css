@@ -32,7 +32,7 @@
   border-color: var(--disbled-color);
 }
 .card.underline {
-  border-bottom-width: 0.28em;
+  border-bottom-width: 0.3em;
 }
 
 @keyframes jump {

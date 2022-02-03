@@ -25,6 +25,7 @@ body {
   --flip-duration: 0.6s;
   --flip-delay: 0.3s;
   --jump-duration: 0.15s;
+  --toast-duration: 0.25s;
 }
 
 html,
