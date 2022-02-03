@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useLettersData } from "../../hooks/LetterContext";
+import React from "react";
 
 import Card from "../Card";
 
