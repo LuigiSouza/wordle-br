@@ -2,6 +2,8 @@
 
 A clone of the wordle game (term.ooo) made in react
 
+[Deploy](https://luigisouza.github.io/wordle-br/).
+
 ## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
