@@ -7,11 +7,42 @@ import Keyboard from "../Keyboard";
 import { mapAccent, answerList, wordList } from "../../utils/words";
 import { mulberry32, deNormalize } from "../../utils/random";
 
+import { useLettersData } from "../../hooks/LetterContext";
+
 import styles from "./styles.module.css";
 import Modal from "../Modal";
 
 const size = 5;
 const tries = 6;
+
+const updateStatus = (word, answer) => {
+  const answerMap = {};
+  const newStatus = ["", "", "", "", ""];
+  const nomalizedAnswer = answer
+    .toUpperCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+  const nomalizedWord = word
+    .toUpperCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+  for (let i = 0; i < size; i++) {
+    if (nomalizedAnswer[i] === nomalizedWord[i]) newStatus[i] = "correct";
+    else if (!answerMap[nomalizedAnswer[i]]) answerMap[nomalizedAnswer[i]] = 1;
+    else answerMap[nomalizedAnswer[i]] += 1;
+  }
+  for (let i = 0; i < size; i++) {
+    const letter = nomalizedWord[i];
+    if (newStatus[i] !== "") continue;
+    if (!answerMap[letter]) newStatus[i] = "wrong";
+    else if (answerMap[letter] > 0) {
+      newStatus[i] = "close";
+      answerMap[letter]--;
+    }
+  }
+
+  return newStatus;
+};
 
 function reducer(state, action) {
   const words = [...state.words];
@@ -35,10 +66,14 @@ function reducer(state, action) {
       flip[state.count] = true;
       const newWord = mapAccent[currentLower] || currentLower;
       words[state.count] = newWord.toUpperCase();
+      const wordStatus = [...state.wordStatus];
+      const newStatus = updateStatus(current, state.answer);
+      wordStatus[state.count] = newStatus;
       return {
         ...state,
         count: state.count + 1,
         gameState: "animating",
+        wordStatus,
         flip,
         words,
       };
@@ -57,20 +92,17 @@ function reducer(state, action) {
       if (state.gameState === "waiting")
         return { ...state, animation: state.animation - 1 };
       let gameState = state.gameState;
-      let modal = state.modal;
       if (state.gameState === "animating" && state.animation <= 1) {
-        if (words[state.count - 1] === state.answer) {
-          modal = true;
-          gameState = "win";
-        }
+        if (words[state.count - 1] === state.answer) gameState = "win";
         // correct answer
         else if (state.count === tries) gameState = "lose";
         //wrong answer
         else gameState = "waiting";
         // continue game
       }
-      const newToast =
-        gameState !== "waiting" && gameState !== "animating" ? "show" : toast;
+      const ended = gameState !== "waiting" && gameState !== "animating";
+      const newToast = ended ? "show" : toast;
+      const modal = ended ? true : state.modal;
       return {
         ...state,
         modal,
@@ -99,6 +131,9 @@ function init() {
     answer: loadsAnswer(),
     flip: [...Array(tries).keys()].map(() => false),
     words: [...Array(tries).keys()].map(() => ""),
+    wordStatus: [...Array(tries).keys()].map(() =>
+      [...Array(size).keys()].map(() => "none")
+    ),
     animation: 0,
     gameState: "waiting",
     toast: "none",
@@ -116,7 +151,14 @@ const winMessages = {
   6: "Parabéns!",
 };
 
+const mapEmoji = {
+  correct: "0x1f7e9",
+  wrong: "0x2b1b",
+  close: "0x1f7e8",
+};
+
 function MainGame() {
+  const { updateKeyboard } = useLettersData();
   const [state, dispatch] = useReducer(reducer, {}, init);
 
   const handleKeyType = useCallback((letter) => {
@@ -139,6 +181,44 @@ function MainGame() {
   const handleAnimation = useCallback((e) => {
     dispatch({ type: e.type });
   }, []);
+
+  const copyToClipboard = useCallback(() => {
+    let toString = `Joguei (NOT) Termo ${state.count}/6\n\n`;
+    for (let i = 0; i < state.count; i++) {
+      for (const status of state.wordStatus[i]) {
+        console.log(
+          status,
+          mapEmoji[status],
+          String.fromCodePoint(mapEmoji[status])
+        );
+        toString += String.fromCodePoint(mapEmoji[status]);
+      }
+      toString += "\n";
+    }
+    console.log(toString);
+
+    navigator.clipboard.writeText(toString);
+  }, [state.wordStatus, state.count]);
+
+  useEffect(() => {
+    function update() {
+      const newKeyboardStatus = [];
+      const nomalizedWord = state.words[state.count - 1]
+        .toUpperCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+      const status = state.wordStatus[state.count - 1];
+      status.forEach((status, index) =>
+        newKeyboardStatus.push({
+          letter: nomalizedWord[index],
+          status: status,
+        })
+      );
+      updateKeyboard(newKeyboardStatus);
+    }
+
+    if (state.count) update();
+  }, [state.wordStatus]);
 
   // document listeners
   useEffect(() => {
@@ -186,10 +266,10 @@ function MainGame() {
           {[...Array(tries).keys()].map((index) => (
             <Grid
               key={index}
-              correctAnswer={state.answer}
-              word={state.words[index]}
               size={size}
+              word={state.words[index]}
               flip={state.flip[index]}
+              status={state.wordStatus[index]}
               disabled={
                 (state.gameState !== "waiting" && index >= state.count) ||
                 index > state.count
@@ -207,7 +287,7 @@ function MainGame() {
               Resultado: {state.count} / {tries}
             </div>
             <div>
-              <button>Compartilhar &#128196;</button>
+              <button onClick={copyToClipboard}>Compartilhar &#128196;</button>
             </div>
           </div>
         </div>

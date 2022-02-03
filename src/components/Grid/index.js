@@ -5,65 +5,7 @@ import Card from "../Card";
 
 import styles from "./styles.module.css";
 
-function Grid({
-  correctAnswer,
-  word,
-  flip = false,
-  disabled = false,
-  size = 5,
-}) {
-  const { updadeKeyboard } = useLettersData();
-
-  const [status, setStatus] = useState([
-    "none",
-    "none",
-    "none",
-    "none",
-    "none",
-  ]);
-
-  useEffect(() => {
-    const updateStatus = () => {
-      const answerMap = {};
-      const newStatus = ["", "", "", "", ""];
-      const nomalizedAnswer = correctAnswer
-        .toUpperCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
-      const nomalizedWord = word
-        .toUpperCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
-      for (let i = 0; i < size; i++) {
-        if (nomalizedAnswer[i] === nomalizedWord[i]) newStatus[i] = "correct";
-        else if (!answerMap[nomalizedAnswer[i]])
-          answerMap[nomalizedAnswer[i]] = 1;
-        else answerMap[nomalizedAnswer[i]] += 1;
-      }
-      for (let i = 0; i < size; i++) {
-        const letter = nomalizedWord[i];
-        if (newStatus[i] !== "") continue;
-        if (!answerMap[letter]) newStatus[i] = "wrong";
-        else if (answerMap[letter] > 0) {
-          newStatus[i] = "close";
-          answerMap[letter]--;
-        }
-      }
-      const newKeyboardStatus = [];
-      newStatus.forEach((status, index) =>
-        newKeyboardStatus.push({
-          letter: nomalizedWord[index],
-          status: status,
-        })
-      );
-      updadeKeyboard(newKeyboardStatus);
-
-      setStatus(newStatus);
-    };
-
-    if (flip) updateStatus();
-  }, [flip, word, correctAnswer, size]);
-
+function Grid({ word, flip = false, disabled = false, size = 5, status }) {
   return (
     <div className={styles.grid}>
       {[...Array(size).keys()].map((index) => (

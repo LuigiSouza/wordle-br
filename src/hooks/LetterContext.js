@@ -16,7 +16,7 @@ function LetterProvider({ children }) {
     return keyboard;
   });
 
-  const updadeKeyboard = useCallback(
+  const updateKeyboard = useCallback(
     (word) => {
       const newStatus = { ...letterStatus };
       for (const char of word) {
@@ -30,7 +30,7 @@ function LetterProvider({ children }) {
   );
 
   return (
-    <LetterContext.Provider value={{ letterStatus, updadeKeyboard }}>
+    <LetterContext.Provider value={{ letterStatus, updateKeyboard }}>
       {children}
     </LetterContext.Provider>
   );
