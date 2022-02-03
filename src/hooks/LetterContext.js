@@ -1,4 +1,4 @@
-import { useCallback, useState, useContext, createContext } from "react";
+import React, { useCallback, useState, useContext, createContext } from "react";
 
 const LetterContext = createContext({});
 

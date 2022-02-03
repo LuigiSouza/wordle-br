@@ -57,6 +57,34 @@
   }
 }
 
+.modal {
+  height: calc(50vh - 63px);
+  display: flex;
+  flex-direction: column;
+}
+.modal div {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal div div {
+  display: flex;
+  justify-content: center;
+}
+.modal span {
+  text-align: center;
+}
+.modal button {
+  border: none;
+  border-radius: 15px;
+  padding: 10px;
+}
+.modal button:hover {
+  cursor: pointer;
+}
+
 header {
   display: flex;
   justify-content: space-around;

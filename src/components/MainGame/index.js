@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer, useMemo } from "react";
+import React, { useCallback, useEffect, useReducer, useMemo } from "react";
 
 import Grid from "../Grid";
 import Board from "../Board";
@@ -8,6 +8,7 @@ import { mapAccent, answerList, wordList } from "../../utils/words";
 import { mulberry32, deNormalize } from "../../utils/random";
 
 import styles from "./styles.module.css";
+import Modal from "../Modal";
 
 const size = 5;
 const tries = 6;
@@ -17,6 +18,10 @@ function reducer(state, action) {
   const current = state.words[state.count];
   const toast = state.toast !== "none" ? "hide" : "none";
   switch (action.type) {
+    case "open-modal":
+      return { ...state, modal: true };
+    case "close-modal":
+      return { ...state, modal: false };
     case "write":
       if (state.gameState !== "waiting") return state;
       if (current.length >= size) return { ...state, toast };
@@ -52,8 +57,12 @@ function reducer(state, action) {
       if (state.gameState === "waiting")
         return { ...state, animation: state.animation - 1 };
       let gameState = state.gameState;
+      let modal = state.modal;
       if (state.gameState === "animating" && state.animation <= 1) {
-        if (words[state.count - 1] === state.answer) gameState = "win";
+        if (words[state.count - 1] === state.answer) {
+          modal = true;
+          gameState = "win";
+        }
         // correct answer
         else if (state.count === tries) gameState = "lose";
         //wrong answer
@@ -64,6 +73,7 @@ function reducer(state, action) {
         gameState !== "waiting" && gameState !== "animating" ? "show" : toast;
       return {
         ...state,
+        modal,
         gameState,
         toast: newToast,
         animation: state.animation - 1,
@@ -93,6 +103,7 @@ function init() {
     gameState: "waiting",
     toast: "none",
     count: 0,
+    modal: false,
   };
 }
 
@@ -153,14 +164,21 @@ function MainGame() {
       waiting: "Esta não é uma palavra válida",
       animating: "Easter Egg|",
     };
-  }, [state]);
+  }, [state.count, state.answer]);
 
   return (
     <div className={styles.page}>
       <header>
         <span>(NOT) TERMO</span>
       </header>
-      <div className={styles.mainGame}>
+      <div
+        className={styles.mainGame}
+        onClick={
+          state.gameState === "win" || state.gameState === "lose"
+            ? () => dispatch({ type: "open-modal" })
+            : () => {}
+        }
+      >
         <div className={`${styles.warning} ${styles[state.toast]}`}>
           <span>{toastMessages[state.gameState]}</span>
         </div>
@@ -181,6 +199,19 @@ function MainGame() {
         </Board>
         <Keyboard action={handleKeyType} />
       </div>
+      <Modal show={state.modal} hide={() => dispatch({ type: "close-modal" })}>
+        <div className={styles.modal}>
+          <span>Progresso</span>
+          <div>
+            <div>
+              Resultado: {state.count} / {tries}
+            </div>
+            <div>
+              <button>Compartilhar &#128196;</button>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
