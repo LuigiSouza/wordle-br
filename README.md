@@ -4,9 +4,9 @@ A clone of Wordle made in react, [Live Demo](https://luigisouza.github.io/wordle
 
 > Inspirations:
 > 
-> [Wordle](https://www.powerlanguage.co.uk/wordle/) \
-> [Term.ooo](https://term.ooo/) \
-> [Letreco](https://www.gabtoschi.com/letreco/)
+> - [Wordle](https://www.powerlanguage.co.uk/wordle/)
+> - [Term.ooo](https://term.ooo/)
+> - [Letreco](https://www.gabtoschi.com/letreco/)
 
 ## Instructions
 
