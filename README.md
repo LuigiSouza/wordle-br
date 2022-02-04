@@ -49,6 +49,10 @@ The objective of the game is to guess the secret word in up to 6 attempts. Each 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Requirements
+
+- npm 7.20.5
+
 ### Running
 
 To start the project, runs:
@@ -56,6 +60,7 @@ To start the project, runs:
 ```bash
 git clone https://github.com/LuigiSouza/wordle-br.git
 cd wordle-br
+npm install
 npm start
 ```
 
