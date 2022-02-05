@@ -5,6 +5,7 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  line-height: 0.12em;
   border: solid;
   border-width: 0.12em;
   border-radius: 10%;
@@ -13,8 +14,6 @@
 
 .card span {
   font-weight: bolder;
-  text-align: center;
-  vertical-align: center;
   font-size: min(min(4rem, 4vh), 56px);
 }
 

@@ -11,12 +11,11 @@
   transition: background-color var(--keyboard-transition),
     color var(--keyboard-transition);
   transition-delay: calc(var(--flip-delay) * 4 + var(--flip-duration));
+  line-height: 1em;
 }
 
 .key span {
   font-weight: bold;
-  text-align: center;
-  vertical-align: middle;
   font-size: 0.8rem;
 }
 
